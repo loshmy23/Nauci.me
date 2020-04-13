@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="350dp"
+    android:layout_height="450dp"
+    android:background="@color/colorPrimary"
+    android:layout_gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1.558"
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:text="Rezultati kviza:"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:textSize="22dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.4"
+        android:text="Neke lekcije niste dobro naucili i potrebno ih je ponoviti. Spisak tih lekcija je:"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.77"
+        android:id="@+id/lessonsToReadList"
+        android:layout_margin="17dp"
+        android:background="@color/white"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:text="Ove lekcije ce biti oznacene kao neprocitane."
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="15dp"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zatvori"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"
+        android:id="@+id/closeDialog"/>
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Nauci.me</string>
+    <string name="dobrodosli">Dobrodosli</string>
+    <string name="fizika">Fizika</string>
+    <string name="hemija">Hemija</string>
+    <string name="istorija">Istorija</string>
+    <string name="geografija">Geografija</string>
+</resources>
