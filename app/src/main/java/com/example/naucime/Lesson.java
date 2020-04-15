@@ -147,7 +147,11 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         lessonOption1.setText(currentQuestion.getOption1());
         lessonOption2.setText(currentQuestion.getOption2());
         lessonOption3.setText(currentQuestion.getOption3());
-        currentIndex++;
+        if(currentIndex != questions.size()-1){
+            currentIndex++;
+        }else {
+            currentIndex = 0;
+        }
     }
 
     public Lesson() {

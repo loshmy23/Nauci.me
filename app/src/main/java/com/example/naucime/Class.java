@@ -1,20 +1,17 @@
 package com.example.naucime;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +21,8 @@ public class Class extends AppCompatActivity {
     private TextView progressTextView;
     private ProgressBar predmetProgres;
     private Button quiz;
-    private CoordinatorLayout classLayout;
+    private FrameLayout classLayout;
+    private ImageView transparentBackground;
     QuizDbHelper dbHelper = null;
     int class_ID;
     int preSelected = -1;
@@ -40,6 +38,7 @@ public class Class extends AppCompatActivity {
         progressTextView = findViewById(R.id.progressTextView);
         quiz = findViewById(R.id.quiz);
         classLayout = findViewById(R.id.classLayout);
+        transparentBackground = findViewById(R.id.transparentBackground);
 
 
         dbHelper = new QuizDbHelper(this);
@@ -50,23 +49,30 @@ public class Class extends AppCompatActivity {
         switch (intent.getStringExtra("predmet")){
             case "Fizika":
                 class_ID = 1;
-                lekcije.setBackgroundColor(getResources().getColor(R.color.fizika));
-                classLayout.setBackground(getResources().getDrawable(R.drawable.fizika_background));
+                lekcije.setBackground(getResources().getDrawable(R.drawable.fizika_lessons));
+                classLayout.setBackground(getResources().getDrawable(R.drawable.fizika));
+                transparentBackground.setBackground(getResources().getDrawable(R.color.fizikaBackground));
                 break;
 
             case "Hemija":
                 class_ID = 2;
-                classLayout.setBackgroundColor(getResources().getColor(R.color.hemija));
+                lekcije.setBackground(getResources().getDrawable(R.drawable.hemija_lessons));
+                classLayout.setBackground(getResources().getDrawable(R.drawable.hemija));
+                transparentBackground.setBackground(getResources().getDrawable(R.color.hemijaBackground));
                 break;
 
             case "Istorija":
                 class_ID = 3;
-                classLayout.setBackgroundColor(getResources().getColor(R.color.istorija));
+                lekcije.setBackground(getResources().getDrawable(R.drawable.istorija_lessons));
+                classLayout.setBackground(getResources().getDrawable(R.drawable.istorija));
+                transparentBackground.setBackground(getResources().getDrawable(R.color.istorijaBackground));
                 break;
 
             case "Geografija":
                 class_ID = 4;
-                classLayout.setBackgroundColor(getResources().getColor(R.color.geografija));
+                lekcije.setBackground(getResources().getDrawable(R.drawable.geografija_lessons));
+                classLayout.setBackground(getResources().getDrawable(R.drawable.geografija));
+                transparentBackground.setBackground(getResources().getDrawable(R.color.geografijaBackground));
                 break;
             default:
                 class_ID = 0;

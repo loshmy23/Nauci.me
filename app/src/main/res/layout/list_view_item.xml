@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/lessonName"
         android:gravity="center_vertical"
+        android:textColor="@color/white"
         />
     <ImageView
         android:layout_width="45dp"
