@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:background="@drawable/fizika_background">
+    android:background="@drawable/mainbackground">
 
     <FrameLayout
         android:id="@+id/titleLayout"
@@ -15,16 +15,17 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/welcomeText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingTop="50sp"
-            android:text="Nauči.ME"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:id="@+id/welcomeText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:fontFamily="@font/roboto_condensed_regular"-->
+<!--            android:paddingTop="50sp"-->
+<!--            android:text="Nauči.ME"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--            android:textSize="24sp"-->
+<!--            android:textStyle="bold" />-->
     </FrameLayout>
 
     <TableLayout
@@ -42,14 +43,14 @@
                 android:id="@+id/fizikaButton"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="20dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto"
+                android:background="@drawable/fizika_main_button"
+                android:fontFamily="@font/amiko_bold"
                 android:text="@string/fizika"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="18dp"
-                android:background="@drawable/fizika_main_button"
                 android:textColor="@color/white"
-                android:layout_margin="20dp"/>
+                android:textSize="18dp" />
 
             <Button
                 android:id="@+id/hemijaButton"
@@ -81,7 +82,7 @@
                 android:textSize="18dp"
                 android:layout_margin="20dp"
                 android:background="@drawable/istorija_main_button"
-                android:textColor="@color/black"/>
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/geografijaButton"

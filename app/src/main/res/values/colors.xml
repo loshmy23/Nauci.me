@@ -5,10 +5,10 @@
     <color name="colorAccent">#D81B60</color>
     <color name="fizika">#003B5D</color>
     <color name="fizikaBackground">#99003B5D</color>
-    <color name="hemija">#138f00</color>
-    <color name="hemijaBackground">#99138f00</color>
-    <color name="istorija">#b0b0b0</color>
-    <color name="istorijaBackground">#99b0b0b0</color>
+    <color name="hemija">#00574B</color>
+    <color name="hemijaBackground">#9900574B</color>
+    <color name="istorija">#4f4f4f</color>
+    <color name="istorijaBackground">#994f4f4f</color>
     <color name="geografija">#a34900</color>
     <color name="geografijaBackground">#99a34900</color>
     <color name="white">#ffffff</color>

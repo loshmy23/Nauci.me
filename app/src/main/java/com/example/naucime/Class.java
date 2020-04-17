@@ -3,6 +3,7 @@ package com.example.naucime;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +22,7 @@ public class Class extends AppCompatActivity {
     private TextView progressTextView;
     private ProgressBar predmetProgres;
     private Button quiz;
-    private FrameLayout classLayout;
+    private ImageView background;
     private ImageView transparentBackground;
     QuizDbHelper dbHelper = null;
     int class_ID;
@@ -37,7 +38,7 @@ public class Class extends AppCompatActivity {
         predmetProgres = findViewById(R.id.predmetProgres);
         progressTextView = findViewById(R.id.progressTextView);
         quiz = findViewById(R.id.quiz);
-        classLayout = findViewById(R.id.classLayout);
+        background = findViewById(R.id.background);
         transparentBackground = findViewById(R.id.transparentBackground);
 
 
@@ -50,28 +51,28 @@ public class Class extends AppCompatActivity {
             case "Fizika":
                 class_ID = 1;
                 lekcije.setBackground(getResources().getDrawable(R.drawable.fizika_lessons));
-                classLayout.setBackground(getResources().getDrawable(R.drawable.fizika));
+                background.setBackground(getResources().getDrawable(R.drawable.fizika));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.fizikaBackground));
                 break;
 
             case "Hemija":
                 class_ID = 2;
                 lekcije.setBackground(getResources().getDrawable(R.drawable.hemija_lessons));
-                classLayout.setBackground(getResources().getDrawable(R.drawable.hemija));
+                background.setBackground(getResources().getDrawable(R.drawable.hemija));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.hemijaBackground));
                 break;
 
             case "Istorija":
                 class_ID = 3;
                 lekcije.setBackground(getResources().getDrawable(R.drawable.istorija_lessons));
-                classLayout.setBackground(getResources().getDrawable(R.drawable.istorija));
+                background.setBackground(getResources().getDrawable(R.drawable.image));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.istorijaBackground));
                 break;
 
             case "Geografija":
                 class_ID = 4;
                 lekcije.setBackground(getResources().getDrawable(R.drawable.geografija_lessons));
-                classLayout.setBackground(getResources().getDrawable(R.drawable.geografija));
+                background.setBackground(getResources().getDrawable(R.drawable.geografija));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.geografijaBackground));
                 break;
             default:

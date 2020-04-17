@@ -11,9 +11,11 @@ import android.widget.ImageView;
 
 public class Welcome extends AppCompatActivity {
     private ImageView logo;
+    Bundle saved;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        saved = savedInstanceState;
         setContentView(R.layout.activity_welcome);
         logo = findViewById(R.id.logo);
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.welcome_screen);
