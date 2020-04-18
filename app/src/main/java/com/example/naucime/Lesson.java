@@ -2,17 +2,30 @@ package com.example.naucime;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.View;
+import android.view.Window;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnRenderListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Lesson extends AppCompatActivity implements View.OnClickListener{
@@ -29,6 +42,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     private TextView lessonName;
     private TextView lessonText;
     private TextView question;
+    private TextView datum;
     private Button toggleLesson;
     private Button toggleMiniQuiz;
     private Button lessonOption1;
@@ -36,8 +50,9 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     private Button lessonOption3;
     private Button previousQuestion;
     private Button nextQuestion;
-    private LinearLayout lessonLayout;
+    private FrameLayout lessonLayout;
     private LinearLayout miniQuizLayout;
+    private PDFView pdfView;
 
 
     @Override
@@ -45,8 +60,9 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
         lessonName = findViewById(R.id.lessonNameTextView);
-        lessonText = findViewById(R.id.lessonTextTextView);
+        //lessonText = findViewById(R.id.lessonTextTextView);
         question = findViewById(R.id.miniQuizQuestionTextView);
+        datum = findViewById(R.id.datum);
         toggleLesson = findViewById(R.id.toggleLessonButton);
         toggleMiniQuiz = findViewById(R.id.toggleMiniQuiz);
         lessonOption1 = findViewById(R.id.lessonOption1);
@@ -56,6 +72,25 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         nextQuestion = findViewById(R.id.nextQuestion);
         lessonLayout = findViewById(R.id.lessonLayout);
         miniQuizLayout = findViewById(R.id.miniQuizLayout);
+        pdfView = findViewById(R.id.pdfView);
+
+        pdfView.fromUri(Uri.parse("@https://drive.google.com/file/d/1kcGIfLFV4ZOd7922_EJUb0aZSJEZwvW8/view?usp=sharing"))
+        .load();
+//        pdfView.fromAsset("Fizika.pdf")
+//                .onRender(new OnRenderListener() {
+//                    @Override
+//                    public void onInitiallyRendered(int nbPages, float pageWidth, float pageHeight) {
+//                        pdfView.fitToWidth();
+//                    }
+//                })
+//                .load();
+        //pdfView.zoomTo((float) 1.5);
+
+
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat sf = new SimpleDateFormat("dd-MMM-yyyy");
+        datum.setText(sf.format(c));
 
         Intent intent = getIntent();
         id = intent.getIntExtra("Id", 0);
@@ -68,6 +103,9 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
             public void onClick(View v) {
                 lessonLayout.setVisibility(View.VISIBLE);
                 miniQuizLayout.setVisibility(View.GONE);
+                toggleMiniQuiz.setVisibility(View.VISIBLE);
+                toggleLesson.setVisibility(View.GONE);
+
             }
         });
 
@@ -76,6 +114,8 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
             public void onClick(View v) {
                 miniQuizLayout.setVisibility(View.VISIBLE);
                 lessonLayout.setVisibility(View.GONE);
+                toggleMiniQuiz.setVisibility(View.GONE);
+                toggleLesson.setVisibility(View.VISIBLE);
                 questions = dbHelper.getMiniQuizQuestions(id);
                 nextMiniQuizQuestion();
             }
@@ -85,10 +125,12 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         lessonOption3.setOnClickListener(this);
 
         lessonName.setText(lesson.getName());
-        lessonText.setText(lesson.getText());
+        //lessonText.setText(lesson.getText());
         previousQuestion.setText("<<");
         nextQuestion.setText(">>");
+
     }
+
 
     @Override
     public void onClick(View v) {
