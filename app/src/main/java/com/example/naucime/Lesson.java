@@ -11,15 +11,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 
@@ -50,9 +53,11 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     private Button lessonOption3;
     private Button previousQuestion;
     private Button nextQuestion;
+    private Button fitToScreen;
     private FrameLayout lessonLayout;
     private LinearLayout miniQuizLayout;
     private PDFView pdfView;
+    private ImageView formula;
 
 
     @Override
@@ -73,18 +78,33 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         lessonLayout = findViewById(R.id.lessonLayout);
         miniQuizLayout = findViewById(R.id.miniQuizLayout);
         pdfView = findViewById(R.id.pdfView);
+        fitToScreen = findViewById(R.id.fitToScreen);
+        formula = findViewById(R.id.formula);
 
-        pdfView.fromUri(Uri.parse("@https://drive.google.com/file/d/1kcGIfLFV4ZOd7922_EJUb0aZSJEZwvW8/view?usp=sharing"))
-        .load();
-//        pdfView.fromAsset("Fizika.pdf")
-//                .onRender(new OnRenderListener() {
-//                    @Override
-//                    public void onInitiallyRendered(int nbPages, float pageWidth, float pageHeight) {
-//                        pdfView.fitToWidth();
-//                    }
-//                })
-//                .load();
-        //pdfView.zoomTo((float) 1.5);
+        fitToScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pdfView.fitToWidth(pdfView.getCurrentPage());
+            }
+        });
+
+
+
+        pdfView.fromAsset("Fizika.pdf")
+                .onPageChange(new OnPageChangeListener() {
+                    @Override
+                    public void onPageChanged(int page, int pageCount) {
+                        editBoard(page);
+                    }
+                })
+                .onRender(new OnRenderListener() {
+                    @Override
+                    public void onInitiallyRendered(int nbPages, float pageWidth, float pageHeight) {
+                        pdfView.fitToWidth();
+                    }
+                })
+                .load();
+        pdfView.zoomTo((float) 1.5);
 
 
 
@@ -125,10 +145,20 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         lessonOption3.setOnClickListener(this);
 
         lessonName.setText(lesson.getName());
+        lessonName.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
         //lessonText.setText(lesson.getText());
         previousQuestion.setText("<<");
         nextQuestion.setText(">>");
 
+    }
+
+    private void editBoard(int page) {
+        if(page==2){
+            formula.setVisibility(View.VISIBLE);
+            formula.setBackground(getResources().getDrawable(R.drawable.druginjutnovzakon));
+        }else {
+            formula.setVisibility(View.GONE);
+        }
     }
 
 

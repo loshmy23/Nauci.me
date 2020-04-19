@@ -1,129 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="250dp">
 
         <ImageView
+            android:id="@+id/tabla"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tabla"
-            android:background="@drawable/board"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:background="@drawable/board" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Skolski rad"
             android:layout_gravity="top|left"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="30dp"
-            android:textColor="@color/white"/>
+            android:fontFamily="casual"
+            android:text="Školski rad"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/datum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Skolski rad"
             android:layout_gravity="top|right"
-            android:layout_marginRight="50dp"
             android:layout_marginTop="30dp"
-            android:textColor="@color/white"/>
+            android:layout_marginRight="50dp"
+            android:fontFamily="casual"
+            android:text="Datum"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/lessonNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="60dp"
+            android:fontFamily="@font/bangers1"
             android:text="Lekcija:"
-            android:layout_margin="20dp"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textSize="24sp"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/formula"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@drawable/druginjutnovzakon"
+            android:visibility="gone" />
+
     </FrameLayout>
 
-
-
-
-
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/toggleLessonButton"
-        android:background="@color/colorPrimaryDark"
-        android:text="Prikazi lekciju"
-        android:textColor="@color/white"
-        android:visibility="gone"/>
-
-    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:text="Prikaži lekciju"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+    <Button
         android:id="@+id/toggleMiniQuiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/design_default_color_secondary_variant"
-        android:text="Prikazi mini kviz"
-        android:textColor="@color/white"/>
+        android:text="Prikaži mini kviz"
+        android:textColor="@color/white" />
 
 
     <FrameLayout
+        android:id="@+id/lessonLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lessonLayout">
+        android:visibility="visible">
 
 
-<!--        <TextView-->
-<!--            android:id="@+id/lessonTextTextView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Lesson text"-->
-<!--            android:layout_margin="10dp"-->
-<!--            android:textSize="16dp"-->
-<!--            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/lessonTextTextView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Lesson text"-->
+        <!--            android:layout_margin="10dp"-->
+        <!--            android:textSize="16dp"-->
+        <!--            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>-->
 
         <com.github.barteksc.pdfviewer.PDFView
             android:id="@+id/pdfView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="top|center_horizontal"/>
+            android:layout_gravity="top|center_horizontal" />
+
+        <Button
+            android:id="@+id/fitToScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="20dp"
+            android:text="Fit to screen" />
 
     </FrameLayout>
 
 
-
     <LinearLayout
+        android:id="@+id/miniQuizLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/miniQuizLayout"
         android:orientation="vertical"
         android:visibility="gone">
 
         <FrameLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/previousQuestion"
-                android:background="@drawable/rounded_button"
-                android:layout_gravity="left"/>
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@drawable/rounded_button" />
+
+            <Button
                 android:id="@+id/nextQuestion"
-                android:background="@drawable/rounded_button"
-                android:layout_gravity="right"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/rounded_button" />
         </FrameLayout>
+
         <TextView
+            android:id="@+id/miniQuizQuestionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pitanje"
             android:layout_margin="10dp"
-            android:id="@+id/miniQuizQuestionTextView"
-            android:textAlignment="center"/>
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:text="Pitanje"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/miniQuizPicture"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,22 +162,22 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/lessonOption1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/lessonOption1"/>
+                android:layout_weight="1" />
 
             <Button
+                android:id="@+id/lessonOption2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/lessonOption2"/>
+                android:layout_weight="1" />
 
             <Button
+                android:id="@+id/lessonOption3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/lessonOption3"/>
+                android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
 

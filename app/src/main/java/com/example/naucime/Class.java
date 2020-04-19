@@ -3,6 +3,8 @@ package com.example.naucime;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -53,6 +55,7 @@ public class Class extends AppCompatActivity {
                 lekcije.setBackground(getResources().getDrawable(R.drawable.fizika_lessons));
                 background.setBackground(getResources().getDrawable(R.drawable.fizika));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.fizikaBackground));
+                predmetProgres.getProgressDrawable().setColorFilter(Color.parseColor("#0088d6"), PorterDuff.Mode.SRC_IN);
                 break;
 
             case "Hemija":

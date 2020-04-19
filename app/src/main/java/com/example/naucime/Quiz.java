@@ -138,27 +138,6 @@ public class Quiz extends Activity {
                         checkAnswer();
                     }
                 }
-//                switch (checkedId){
-//                    case R.id.option1:
-//                        option1.setBackground(getResources().getDrawable(R.drawable.selected_option));
-//                        option2.setBackground(getResources().getDrawable(R.drawable.options));
-//                        option3.setBackground(getResources().getDrawable(R.drawable.options));
-//                        //checkAnswer();
-//                        break;
-//                    case R.id.option2:
-//                        option2.setBackground(getResources().getDrawable(R.drawable.selected_option));
-//                        option1.setBackground(getResources().getDrawable(R.drawable.options));
-//                        option3.setBackground(getResources().getDrawable(R.drawable.options));
-//                        //checkAnswer();
-//                        break;
-//                    case R.id.option3:
-//                        option3.setBackground(getResources().getDrawable(R.drawable.selected_option));
-//                        option1.setBackground(getResources().getDrawable());
-//                        option2.setBackground(getResources().getDrawable(R.drawable.options));
-//                        //checkAnswer();
-//                        break;
-//                }
-
             }
         });
 
@@ -178,7 +157,9 @@ public class Quiz extends Activity {
             score++;
             currentScore.setText(score + "");
         }else {
-            lessonsToRead += dbHelper.unreadLesson(relatedLesson) + "\n";
+            if(!lessonsToRead.contains(dbHelper.unreadLesson(relatedLesson))){
+                lessonsToRead += dbHelper.unreadLesson(relatedLesson) + "\n";
+            }
         }
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -250,9 +231,13 @@ public class Quiz extends Activity {
     private void showDialog(){
         TextView lessonList;
         Button close;
-        dialog.setContentView(R.layout.quiz_summary);
-        lessonList = dialog.findViewById(R.id.lessonsToReadList);
-        lessonList.setText(lessonsToRead);
+        if(lessonsToRead != ""){
+            dialog.setContentView(R.layout.quiz_summary);
+            lessonList = dialog.findViewById(R.id.lessonsToReadList);
+            lessonList.setText(lessonsToRead);
+        }else{
+            dialog.setContentView(R.layout.dialog_well_done);
+        }
         close = dialog.findViewById(R.id.closeDialog);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
