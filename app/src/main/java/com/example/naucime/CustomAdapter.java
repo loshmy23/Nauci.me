@@ -61,9 +61,9 @@ public class CustomAdapter extends BaseAdapter {
 
         LessonModel model = lessons.get(i);
 
-        holder.lessonName.setText(model.getLessonName());
+        holder.lessonName.setText(model.getName());
 
-        if(model.isRead() == 0){
+        if(model.getRead() == 0){
             holder.read.setBackgroundResource(R.drawable.notread);
         }else {
             holder.read.setBackgroundResource(R.drawable.read);

@@ -1,25 +1,36 @@
 package com.example.naucime;
 
 public class Question {
+    private int id;
     private String question;
+    private String questionType;
     private String option1;
     private String option2;
     private String option3;
     private int answer;
-    private int relatedLesson_ID;
-    private int id;
+    private String  relatedLessonCode;
+
 
     public Question(){
 
     }
 
-    public Question(String question, String option1, String option2, String option3, int answer, int relatedLesson) {
+    public Question(String question, String questionType, String option1, String option2, String option3, int answer, String relatedLessonCode) {
         this.question = question;
+        this.questionType = questionType;
         this.option1 = option1;
         this.option2 = option2;
         this.option3 = option3;
         this.answer = answer;
-        this.relatedLesson_ID = relatedLesson;
+        this.relatedLessonCode = relatedLessonCode;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getQuestion() {
@@ -28,6 +39,14 @@ public class Question {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public String getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
     }
 
     public String getOption1() {
@@ -62,19 +81,11 @@ public class Question {
         this.answer = answer;
     }
 
-    public int getRelatedLesson() {
-        return relatedLesson_ID;
+    public String getRelatedLessonCode() {
+        return relatedLessonCode;
     }
 
-    public void setRelatedLesson(int relatedLession) {
-        this.relatedLesson_ID = relatedLession;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setRelatedLessonCode(String relatedLessonCode) {
+        this.relatedLessonCode = relatedLessonCode;
     }
 }

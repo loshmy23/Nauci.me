@@ -2,19 +2,16 @@ package com.example.naucime;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.webkit.WebView;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,26 +21,25 @@ import android.widget.TextView;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
-import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.jar.Manifest;
 
 public class Lesson extends AppCompatActivity implements View.OnClickListener{
 
-    private String name;
-    private String text;
-    private int read;
-    private int class_ID;
-    private int id;
+    private int id = 0;
     private int currentIndex = 0;
     private Question currentQuestion;
     private List<Question> questions;
+    private List<PhotoSettings> settings;
 
     private TextView lessonName;
-    private TextView lessonText;
     private TextView question;
     private TextView datum;
     private Button toggleLesson;
@@ -59,13 +55,15 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     private PDFView pdfView;
     private ImageView formula;
 
+    final QuizDbHelper dbHelper = new QuizDbHelper(this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
+
         lessonName = findViewById(R.id.lessonNameTextView);
-        //lessonText = findViewById(R.id.lessonTextTextView);
         question = findViewById(R.id.miniQuizQuestionTextView);
         datum = findViewById(R.id.datum);
         toggleLesson = findViewById(R.id.toggleLessonButton);
@@ -81,16 +79,14 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         fitToScreen = findViewById(R.id.fitToScreen);
         formula = findViewById(R.id.formula);
 
-        fitToScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pdfView.fitToWidth(pdfView.getCurrentPage());
-            }
-        });
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
 
-
-        pdfView.fromAsset("Fizika.pdf")
+        Intent intent = getIntent();
+        id = intent.getIntExtra("Id", 0);
+        final LessonModel lesson = dbHelper.getLesson(id);
+        settings = dbHelper.getSettings(lesson.getLessonCode());
+        pdfView.fromAsset(lesson.getFilename())
                 .onPageChange(new OnPageChangeListener() {
                     @Override
                     public void onPageChanged(int page, int pageCount) {
@@ -106,17 +102,16 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
                 .load();
         pdfView.zoomTo((float) 1.5);
 
-
+        fitToScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pdfView.fitToWidth(pdfView.getCurrentPage());
+            }
+        });
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat sf = new SimpleDateFormat("dd-MMM-yyyy");
         datum.setText(sf.format(c));
-
-        Intent intent = getIntent();
-        id = intent.getIntExtra("Id", 0);
-
-        final QuizDbHelper dbHelper = new QuizDbHelper(this);
-        final Lesson lesson = dbHelper.getLesson(id);
 
         toggleLesson.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +131,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
                 lessonLayout.setVisibility(View.GONE);
                 toggleMiniQuiz.setVisibility(View.GONE);
                 toggleLesson.setVisibility(View.VISIBLE);
-                questions = dbHelper.getMiniQuizQuestions(id);
+                questions = dbHelper.getMiniQuizQuestions(lesson.getLessonCode());
                 nextMiniQuizQuestion();
             }
         });
@@ -153,12 +148,34 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void editBoard(int page) {
-        if(page==2){
-            formula.setVisibility(View.VISIBLE);
-            formula.setBackground(getResources().getDrawable(R.drawable.druginjutnovzakon));
-        }else {
+        for (int i=0; i<settings.size(); i++){
+            int a = settings.get(i).getPhotoPage();
+            if(a == page+1){
+                formula.setVisibility(View.VISIBLE);
+                InputStream is = null;
+                try {
+                    is = this.getResources().getAssets().open(settings.get(i).getPhoto());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                formula.setImageBitmap(BitmapFactory.decodeStream(is));
+                break;
+            }
             formula.setVisibility(View.GONE);
         }
+//        int i=0;
+//        while (i<settings.size()){
+//            if(settings.get(i).getPhotoPage() == page){
+//                formula.setVisibility(View.VISIBLE);
+//
+//            }
+//        }
+//        if(page==2){
+//            formula.setVisibility(View.VISIBLE);
+//            formula.setBackground(getResources().getDrawable(R.drawable.druginjutnovzakon));
+//        }else {
+//            formula.setVisibility(View.GONE);
+//        }
     }
 
 
@@ -226,55 +243,10 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    public Lesson() {
-    }
-
-    public Lesson(int id, String name, String text, int read, int class_ID) {
-        this.id = id;
-        this.name = name;
-        this.text = text;
-        this.read = read;
-        this.class_ID = class_ID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public int getRead() {
-        return read;
-    }
-
-    public void setRead(int read) {
-        this.read = read;
-    }
-
-    public int getClass_ID() {
-        return class_ID;
-    }
-
-    public void setClass_ID(int class_ID) {
-        this.class_ID = class_ID;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dbHelper.close();
     }
 }
 

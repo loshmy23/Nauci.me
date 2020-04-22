@@ -1,5 +1,6 @@
 package com.example.naucime;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +8,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -16,12 +20,16 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +47,7 @@ public class Quiz extends Activity {
     private RadioButton option3;
     private ProgressBar countdownProgress;
     private Dialog dialog;
+    private ImageView pictureQuestion;
 
     private List<Question> questions;
     private int classID;
@@ -52,7 +61,7 @@ public class Quiz extends Activity {
     private String lessonsToRead ="";
 
     private int score;
-    private int relatedLesson;
+    private String relatedLesson;
     private boolean answered = true;
 
 
@@ -79,6 +88,7 @@ public class Quiz extends Activity {
                     }
                 });
         AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
         alertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
@@ -127,6 +137,7 @@ public class Quiz extends Activity {
         option2 = findViewById(R.id.option2);
         option3 = findViewById(R.id.option3);
         countdownProgress = findViewById(R.id.countdownProgress);
+        pictureQuestion = findViewById(R.id.pictureQuestion);
 
         options.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -135,7 +146,7 @@ public class Quiz extends Activity {
                     final RadioButton selected = findViewById(options.getCheckedRadioButtonId());
                     if (selected != null){
                         selected.setBackground(getResources().getDrawable(R.drawable.selected_option));
-                        checkAnswer();
+                        checkAnswer(1);
                     }
                 }
             }
@@ -147,13 +158,13 @@ public class Quiz extends Activity {
         showNextQuestion();
 
     }
-
-    public void checkAnswer(){
+    @Nullable
+    public void checkAnswer(final int a){
         countDownTimer.cancel();
         final RadioButton selected = findViewById(options.getCheckedRadioButtonId());
         final int answer = options.indexOfChild(selected) + 1;
 
-        if(answer == correctQuestion.getAnswer()){
+        if(answer == correctQuestion.getAnswer() && a == 1){
             score++;
             currentScore.setText(score + "");
         }else {
@@ -165,8 +176,10 @@ public class Quiz extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                selected.setBackground(getResources().getDrawable(R.drawable.options));
-                showNextQuestion();
+                if(a == 1) {
+                    selected.setBackground(getResources().getDrawable(R.drawable.underline));
+                    showNextQuestion();
+                }
             }
         }, 500);
     }
@@ -179,12 +192,27 @@ public class Quiz extends Activity {
         answered = true;
         if(questionCounter < questionCountTotal){
             correctQuestion = questions.get(questionCounter);
+            if(correctQuestion.getQuestionType().equals("T")){
+                question.setVisibility(View.VISIBLE);
+                pictureQuestion.setVisibility(View.GONE);
+                question.setText(correctQuestion.getQuestion());
+            }else {
+                question.setVisibility(View.GONE);
+                pictureQuestion.setVisibility(View.VISIBLE);
+                InputStream is = null;
+                try {
+                    is = this.getResources().getAssets().open(correctQuestion.getQuestion());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                pictureQuestion.setImageBitmap(BitmapFactory.decodeStream(is));
+                //700168
+            }
 
-            question.setText(correctQuestion.getQuestion());
             option1.setText(correctQuestion.getOption1());
             option2.setText(correctQuestion.getOption2());
             option3.setText(correctQuestion.getOption3());
-            relatedLesson = correctQuestion.getRelatedLesson();
+            relatedLesson = correctQuestion.getRelatedLessonCode();
             questionCounter++;
             questionCount.setText(questionCounter + "/" + questionCountTotal);
             timeLeft = countdownCount;
@@ -202,8 +230,21 @@ public class Quiz extends Activity {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeft = millisUntilFinished;
+                System.out.println(timeLeft);
                 updateCountdownText();
-                countdownProgress.setProgress(countdownProgress.getProgress()-10);
+                if(timeLeft < 2000){
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            countDownTimer.onFinish();
+                        }
+                    }, timeLeft%1000);
+                    countdownProgress.setProgress(countdownProgress.getProgress()-10);
+                }else {
+                    countdownProgress.setProgress(countdownProgress.getProgress()-10);
+                }
+
             }
 
             @Override
@@ -211,6 +252,7 @@ public class Quiz extends Activity {
                 timeLeft = 0;
                 updateCountdownText();
                 countdownProgress.setProgress(0);
+                checkAnswer(0);
                 answered = true;
                 showNextQuestion();
             }
@@ -246,6 +288,7 @@ public class Quiz extends Activity {
                 finish();
             }
         });
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 
@@ -275,10 +318,15 @@ public class Quiz extends Activity {
         if(countDownTimer != null){
             countDownTimer.cancel();
         }
+        if(dbHelper!=null){
+            dbHelper.close();
+        }
     }
 
     @Override
     public void finish() {
         super.finish();
     }
+
+
 }

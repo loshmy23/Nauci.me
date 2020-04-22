@@ -57,7 +57,6 @@
             android:layout_width="100dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            android:background="@drawable/druginjutnovzakon"
             android:visibility="gone" />
 
     </FrameLayout>

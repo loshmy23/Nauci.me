@@ -1,12 +1,14 @@
-insert into Class(name) values("Fizika");
-insert into Class(name) values("Hemija");
-insert into Class(name) values("Istorija");
-insert into Class(name) values("Geografija");
-insert into Lesson(name, text, read, class_ID) values("Prvi Njutnov zakon", "Prvi Njutnov zakon", 0, 1);
-insert into Lesson(name, text, read, class_ID) values("Drugi Njutnov zakon", "Drugi Njutnov zakon", 0, 1);
-insert into Lesson(name, text, read, class_ID) values("Treci Njutnov zakon", "Treci Njutnov zakon", 0, 1);
-insert into Quiz(question, option1, option2, option3, answer, related_lesson) values ("Prvi Njutnov zakon? Neko malo duze pitanje da vidimo dokle bi moglo da ide ovo pitanje i u koliko redova", "I", "II", "III", 1, 1);
-insert into Quiz(question, option1, option2, option3, answer, related_lesson) values ("Prvi Njutnov zakon? ", "I", "II", "III", 1, 1);
-insert into Quiz(question, option1, option2, option3, answer, related_lesson) values ("Prvi Njutnov zakon?  Trece pitanje", "I", "II", "III", 1, 1);
-insert into Quiz(question, option1, option2, option3, answer, related_lesson) values ("Drugi Njutnov zakon?", "I", "II", "III", 2, 2);
-insert into Quiz(question, option1, option2, option3, answer, related_lesson) values ("Treci Njutnov zakon?", "I", "II", "III", 3, 3);
+insert into Class(name, color1, color2, color3, color4) values("Fizika", "#003B5D", "#99003B5D", "#0078bd", "#24afff");
+insert into Class(name, color1, color2, color3, color4) values("Hemija", "#00574B", "#9900574B", "#00a892", "#00e6c7");
+insert into Class(name, color1, color2, color3, color4) values("Istorija", "#4f4f4f", "#994f4f4f", "#828282", "#a8a8a8");
+insert into Class(name, color1, color2, color3, color4) values("Geografija", "#a34900", "#99a34900", "#e66700", "#ff7e14");
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Fizika kao prirodna nauka", "fiz01", "1. Fizika kao prirodna nauka.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Prvi Njutnov zakon", "fiz02", "2. I Njutnov zakon.pdf", 0, 1);
+insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("Fizika kao prirodna nauka? ", "T", "I", "II", "III", 1, "fiz01");
+insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("Inercija? ", "T", "ubrzanje", "masa", "inercija", 3, "fiz01");
+insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("questionPictures/druginjutnovzakon.png", "P", "I", "II", "III", 1, "fiz02");
+insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("Prvi Njutnov zakon? ", "T", "Prvi", "Drugi", "Treci", 1, "fiz02");
+insert into Settings(photo, photo_page, lesson_code) values ("lessonPictures/f=ma.png", 1, "fiz01")
+insert into Settings(photo, photo_page, lesson_code) values ("lessonPictures/f=ma.png", 3, "fiz01")
+insert into Settings(photo, photo_page, lesson_code) values ("lessonPictures/f=ma.png", 1, "fiz02")
+insert into Settings(photo, photo_page, lesson_code) values ("lessonPictures/f=ma.png", 3, "fiz02")

@@ -83,51 +83,8 @@ public class Class extends AppCompatActivity {
                 break;
         }
         updateSeeker();
-//        predmetProgres.setProgress(dbHelper.updateSeeker(class_ID));
-//        progressTextView.setText(progressTextView.getText() + (predmetProgres.getProgress() + "%"));
-//        if(predmetProgres.getProgress()==100){
-//            quiz.setVisibility(View.VISIBLE);
-//        }
 
         fillListView();
-
-
-//        final List<LessonModel> lessons = new ArrayList<>();
-//        List<Lesson> allLessons = dbHelper.getAllLesson(class_ID);
-//
-//        for(int i=0; i<allLessons.size(); i++){
-//            lessons.add(new LessonModel(allLessons.get(i).getRead(), allLessons.get(i).getName(), allLessons.get(i).getId()));
-//        }
-//        final CustomAdapter adapter = new CustomAdapter(this, lessons);
-//
-//        lekcije.setAdapter(adapter);
-//
-//        lekcije.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-//                LessonModel model = lessons.get(i);
-//
-//                lessons.set(i, model);
-//
-//                if(preSelected > -1){
-//                    LessonModel preRecord = lessons.get(preSelected);
-//
-//                    lessons.set(preSelected, preRecord);
-//                }
-//
-//                preSelected = i;
-//
-//                adapter.updateRecords(lessons);
-//                view.findViewById(R.id.read).setBackgroundResource(R.drawable.read);
-//                Intent lekcija = new Intent(Class.this, Lesson.class);
-//                lekcija.putExtra("Id", model.id);
-//                startActivity(lekcija);
-//                dbHelper.setAsRead(model.id);
-//                updateSeeker();
-////                predmetProgres.setProgress(dbHelper.updateSeeker(class_ID));
-////                progressTextView.setText((predmetProgres.getProgress() + "%"));
-//            }
-//        });
 
         quiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,10 +103,10 @@ public class Class extends AppCompatActivity {
 
     public void fillListView(){
         final List<LessonModel> lessons = new ArrayList<>();
-        List<Lesson> allLessons = dbHelper.getAllLesson(class_ID);
+        List<LessonModel> allLessons = dbHelper.getAllLesson(class_ID);
 
         for(int i=0; i<allLessons.size(); i++){
-            lessons.add(new LessonModel(allLessons.get(i).getRead(), allLessons.get(i).getName(), allLessons.get(i).getId()));
+            lessons.add(new LessonModel(allLessons.get(i).getId(), allLessons.get(i).getName(), allLessons.get(i).getRead()));
         }
         final CustomAdapter adapter = new CustomAdapter(this, lessons);
 
@@ -173,9 +130,9 @@ public class Class extends AppCompatActivity {
                 adapter.updateRecords(lessons);
                 view.findViewById(R.id.read).setBackgroundResource(R.drawable.read);
                 Intent lekcija = new Intent(Class.this, Lesson.class);
-                lekcija.putExtra("Id", model.id);
+                lekcija.putExtra("Id", model.getId());
                 startActivity(lekcija);
-                dbHelper.setAsRead(model.id);
+                dbHelper.setAsRead(model.getId());
                 updateSeeker();
 //                predmetProgres.setProgress(dbHelper.updateSeeker(class_ID));
 //                progressTextView.setText((predmetProgres.getProgress() + "%"));
@@ -198,5 +155,11 @@ public class Class extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         fillListView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dbHelper.close();
     }
 }
