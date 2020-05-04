@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @Override
@@ -16,7 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.reserve);
+        setContentView(R.layout.activity_main);
 
 
         Button fizika = findViewById(R.id.fizikaButton);
@@ -44,24 +42,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()){
             case R.id.fizikaButton:
-                Intent fizika = new Intent(MainActivity.this, Class.class);
-                fizika.putExtra("predmet", "Fizika");
-                startActivity(fizika);
+                Intent physics = new Intent(MainActivity.this, Class.class);
+                physics.putExtra("classId", 1);
+                startActivity(physics);
                 break;
             case R.id.hemijaButton:
-                Intent hemija = new Intent(MainActivity.this, Class.class);
-                hemija.putExtra("predmet", "Hemija");
-                startActivity(hemija);
+                Intent chemistry = new Intent(MainActivity.this, Class.class);
+                chemistry.putExtra("classId", 2);
+                startActivity(chemistry);
                 break;
             case R.id.istorijaButton:
-                Intent istorija = new Intent(MainActivity.this, Class.class);
-                istorija.putExtra("predmet", "Istorija");
-                startActivity(istorija);
+                Intent history = new Intent(MainActivity.this, Class.class);
+                history.putExtra("classId", 3);
+                startActivity(history);
                 break;
             case R.id.geografijaButton:
-                Intent geografija = new Intent(MainActivity.this, Class.class);
-                geografija.putExtra("predmet", "Geografija");
-                startActivity(geografija);
+                Intent geography = new Intent(MainActivity.this, Class.class);
+                geography.putExtra("classId", 4);
+                startActivity(geography);
                 break;
         }
     }

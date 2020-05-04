@@ -21,13 +21,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.4"
-        android:text="Neke lekcije niste dobro naucili i potrebno ih je ponoviti. Spisak tih lekcija je:"
         android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:textSize="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:layout_weight="1.4"
+        android:fontFamily="@font/amiko_bold"
+        android:text="Neke lekcije niste dobro naučili i potrebno ih je ponoviti. Spisak tih lekcija je:"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -40,19 +41,21 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
-        android:text="Ove lekcije ce biti oznacene kao neprocitane."
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textSize="15dp"
-        android:textColor="@color/white"/>
+        android:layout_weight="1.5"
+        android:fontFamily="@font/amiko_bold"
+        android:text="Ove lekcije ce biti označene kao nepročitane."
+        android:textColor="@color/white"
+        android:textSize="15dp" />
 
     <Button
+        android:id="@+id/closeDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Zatvori"
-        android:layout_marginBottom="15dp"
         android:layout_gravity="center"
-        android:id="@+id/closeDialog"/>
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/amiko_bold"
+        android:text="Zatvori" />
 
 </LinearLayout>

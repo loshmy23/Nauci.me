@@ -3,7 +3,9 @@ package com.example.naucime;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.media.Image;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,43 +47,38 @@ public class Class extends AppCompatActivity {
         background = findViewById(R.id.background);
         transparentBackground = findViewById(R.id.transparentBackground);
 
+        final Intent intent = getIntent();
+        class_ID = intent.getIntExtra("classId", 0);
 
         dbHelper = new QuizDbHelper(this);
+        ClassModel classModel = dbHelper.getClassModel(class_ID);
 
-        final Intent intent = getIntent();
+        predmetProgres.getProgressDrawable().setColorFilter(Color.parseColor(classModel.getColor3()), PorterDuff.Mode.SRC_IN);
 
-        nazivPredmeta.setText(nazivPredmeta.getText() + intent.getStringExtra("predmet"));
-        switch (intent.getStringExtra("predmet")){
-            case "Fizika":
-                class_ID = 1;
+        nazivPredmeta.setText(classModel.getName());
+        switch (class_ID){
+            case 1:
                 lekcije.setBackground(getResources().getDrawable(R.drawable.fizika_lessons));
                 background.setBackground(getResources().getDrawable(R.drawable.fizika));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.fizikaBackground));
-                predmetProgres.getProgressDrawable().setColorFilter(Color.parseColor("#0088d6"), PorterDuff.Mode.SRC_IN);
                 break;
 
-            case "Hemija":
-                class_ID = 2;
+            case 2:
                 lekcije.setBackground(getResources().getDrawable(R.drawable.hemija_lessons));
                 background.setBackground(getResources().getDrawable(R.drawable.hemija));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.hemijaBackground));
                 break;
 
-            case "Istorija":
-                class_ID = 3;
+            case 3:
                 lekcije.setBackground(getResources().getDrawable(R.drawable.istorija_lessons));
-                background.setBackground(getResources().getDrawable(R.drawable.image));
+                background.setBackground(getResources().getDrawable(R.drawable.istorija));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.istorijaBackground));
                 break;
 
-            case "Geografija":
-                class_ID = 4;
+            case 4:
                 lekcije.setBackground(getResources().getDrawable(R.drawable.geografija_lessons));
                 background.setBackground(getResources().getDrawable(R.drawable.geografija));
                 transparentBackground.setBackground(getResources().getDrawable(R.color.geografijaBackground));
-                break;
-            default:
-                class_ID = 0;
                 break;
         }
         updateSeeker();

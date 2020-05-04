@@ -7,6 +7,7 @@ public final class QuizContract {
     public static class ClassTable implements BaseColumns {
         public static final String TABLE_NAME = "class";
         public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_BACKGROUND = "background";
         public static final String COLUMN_COLOR1 = "color1";
         public static final String COLUMN_COLOR2 = "color2";
         public static final String COLUMN_COLOR3 = "color3";

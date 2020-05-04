@@ -7,97 +7,159 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:background="@drawable/mainbackground">
+    android:background="@drawable/front_v1">
 
     <FrameLayout
-        android:id="@+id/titleLayout"
+        android:id="@+id/firstShelf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1.08">
 
-<!--        <TextView-->
-<!--            android:id="@+id/welcomeText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:fontFamily="@font/roboto_condensed_regular"-->
-<!--            android:paddingTop="50sp"-->
-<!--            android:text="Nauči.ME"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
-<!--            android:textSize="24sp"-->
-<!--            android:textStyle="bold" />-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/class_sign"/>
+
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:fontFamily="@font/luckiest_guy"
+            android:text="nauči.me"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
     </FrameLayout>
 
-    <TableLayout
-        android:id="@+id/buttonLayout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/fizikaButton"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_gravity="left|center"
                 android:layout_weight="1"
-                android:background="@drawable/fizika_main_button"
-                android:fontFamily="@font/amiko_bold"
+                android:background="@drawable/transparent_main_button"
+                android:fontFamily="@font/bangers1"
                 android:text="@string/fizika"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
 
-            <Button
-                android:id="@+id/hemijaButton"
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto"
-                android:text="@string/hemija"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="18dp"
-                android:layout_margin="20dp"
-                android:background="@drawable/hemija_main_button"
-                android:textColor="@color/white"/>
-        </TableRow>
+                android:layout_weight="1"/>
+        </LinearLayout>
 
-        <TableRow
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/hemijaButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/transparent_main_button"
+                android:fontFamily="@font/bangers1"
+                android:text="@string/hemija"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/istorijaButton"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/transparent_main_button"
+                android:fontFamily="@font/bangers1"
                 android:text="@string/istorija"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/white"
                 android:textSize="18dp"
-                android:layout_margin="20dp"
-                android:background="@drawable/istorija_main_button"
-                android:textColor="@color/white"/>
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/geografijaButton"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto"
+                android:layout_gravity="center_vertical|right"
+                android:background="@drawable/transparent_main_button"
+                android:fontFamily="@font/bangers1"
                 android:text="@string/geografija"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/white"
                 android:textSize="18dp"
-                android:layout_margin="20dp"
-                android:background="@drawable/geografija_main_button"
-                android:textColor="@color/white"/>
-        </TableRow>
+                android:layout_weight="1"/>
 
-    </TableLayout>
+        </LinearLayout>
+
+
+
+    </FrameLayout>
 
 </LinearLayout>

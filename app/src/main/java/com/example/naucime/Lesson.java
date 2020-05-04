@@ -12,15 +12,24 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,10 +40,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.jar.Manifest;
 
-public class Lesson extends AppCompatActivity implements View.OnClickListener{
+public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener{
 
     private int id = 0;
     private int currentIndex = 0;
+    private String url = "";
     private Question currentQuestion;
     private List<Question> questions;
     private List<PhotoSettings> settings;
@@ -49,14 +59,21 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     private Button lessonOption3;
     private Button previousQuestion;
     private Button nextQuestion;
-    private Button fitToScreen;
+    private Button showVideo;
+    private Button zoomIn;
+    private Button zoomOut;
+    private Button zoom100;
     private FrameLayout lessonLayout;
     private LinearLayout miniQuizLayout;
     private PDFView pdfView;
     private ImageView formula;
+    //private WebView videoView;
+
 
     final QuizDbHelper dbHelper = new QuizDbHelper(this);
-
+    private static final int RECOVERY_REQUEST = 1;
+    private YouTubePlayerView youTubeView;
+    private YouTubePlayer youTubePlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +93,17 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         lessonLayout = findViewById(R.id.lessonLayout);
         miniQuizLayout = findViewById(R.id.miniQuizLayout);
         pdfView = findViewById(R.id.pdfView);
-        fitToScreen = findViewById(R.id.fitToScreen);
+        //fitToScreen = findViewById(R.id.fitToScreen);
+        showVideo = findViewById(R.id.showVideo);
+        zoom100 = findViewById(R.id.zoom100);
+        zoomIn = findViewById(R.id.zoomIn);
+        zoomOut = findViewById(R.id.zoomOut);
         formula = findViewById(R.id.formula);
+        //videoView = findViewById(R.id.videoView);
+        youTubeView = findViewById(R.id.youtube);
+        youTubeView.initialize(YouTubeConfig.getApiKey(), this);
+
+
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
@@ -100,14 +126,38 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
                     }
                 })
                 .load();
-        pdfView.zoomTo((float) 1.5);
+        pdfView.zoomTo(1.5f);
 
-        fitToScreen.setOnClickListener(new View.OnClickListener() {
+        zoom100.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pdfView.fitToWidth(pdfView.getCurrentPage());
             }
         });
+
+        zoomIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pdfView.zoomWithAnimation(pdfView.getZoom()+0.5f);
+            }
+        });
+        zoomOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pdfView.zoomWithAnimation(pdfView.getZoom()-0.5f);
+            }
+        });
+
+        showVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleVideo();
+            }
+        });
+
+//        videoView.setWebViewClient(new WebViewClient());
+//        videoView.getSettings().setJavaScriptEnabled(true);
+//        videoView.loadUrl("https://www.youtube.com/watch?v=W4hTJybfU7s");
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat sf = new SimpleDateFormat("dd-MMM-yyyy");
@@ -135,22 +185,84 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
                 nextMiniQuizQuestion();
             }
         });
-        lessonOption1.setOnClickListener(this);
-        lessonOption2.setOnClickListener(this);
-        lessonOption3.setOnClickListener(this);
+        lessonOption1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickOption(v);
+            }
+        });
+        lessonOption2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickOption(v);
+            }
+        });
+        lessonOption3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickOption(v);
+            }
+        });
 
         lessonName.setText(lesson.getName());
         lessonName.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
         //lessonText.setText(lesson.getText());
         previousQuestion.setText("<<");
+        previousQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextMiniQuizQuestion();
+            }
+        });
         nextQuestion.setText(">>");
+        nextQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextMiniQuizQuestion();
+            }
+        });
+    }
 
+    private void toggleVideo() {
+
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        if (!b) {
+            this.youTubePlayer = youTubePlayer;
+        }
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        if (youTubeInitializationResult.isUserRecoverableError()) {
+            youTubeInitializationResult.getErrorDialog(this, RECOVERY_REQUEST).show();
+        } else {
+            String error = String.format("Player Error:", youTubeInitializationResult.toString());
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RECOVERY_REQUEST) {
+            // Retry initialization if user performed a recovery action
+            getYouTubePlayerProvider().initialize(YouTubeConfig.getApiKey(), this);
+        }
+    }
+
+    protected YouTubePlayerView getYouTubePlayerProvider() {
+        return youTubeView;
     }
 
     private void editBoard(int page) {
         for (int i=0; i<settings.size(); i++){
             int a = settings.get(i).getPhotoPage();
             if(a == page+1){
+                if(youTubePlayer.isPlaying()){
+                    break;
+                }
                 formula.setVisibility(View.VISIBLE);
                 InputStream is = null;
                 try {
@@ -179,8 +291,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
     }
 
 
-    @Override
-    public void onClick(View v) {
+    public void onClickOption(View v) {
         switch (v.getId()){
             case R.id.lessonOption1:
                 lessonOption1.setBackgroundResource(R.color.red);
@@ -248,5 +359,7 @@ public class Lesson extends AppCompatActivity implements View.OnClickListener{
         super.onDestroy();
         dbHelper.close();
     }
+
+
 }
 

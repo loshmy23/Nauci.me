@@ -3,11 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:class="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="250dp">
+
+
 
         <ImageView
             android:id="@+id/tabla"
@@ -15,6 +18,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/board" />
+<!--        <WebView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:id="@+id/videoView"/>-->
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/youtube"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,20 +56,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="60dp"
-            android:fontFamily="@font/bangers1"
+            android:layout_margin="50dp"
+            android:fontFamily="casual"
             android:text="Lekcija:"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:textSize="20sp"
+            android:singleLine="true"/>
 
         <ImageView
             android:id="@+id/formula"
             android:layout_width="100dp"
             android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+            android:layout_gravity="center"/>
 
     </FrameLayout>
 
@@ -74,7 +86,7 @@
         android:id="@+id/toggleMiniQuiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/design_default_color_secondary_variant"
+        android:fontFamily="@font/amiko_bold"
         android:text="Prikaži mini kviz"
         android:textColor="@color/white" />
 
@@ -101,13 +113,53 @@
             android:layout_height="match_parent"
             android:layout_gravity="top|center_horizontal" />
 
-        <Button
-            android:id="@+id/fitToScreen"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/zoomButtons"
             android:layout_gravity="bottom|right"
             android:layout_margin="20dp"
-            android:text="Fit to screen" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/zoomIn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="+" />
+
+            <Button
+                android:id="@+id/zoom100"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:text="100%" />
+
+            <Button
+                android:id="@+id/zoomOut"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="-" />
+
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/showVideo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|right"
+            android:background="@drawable/youtube"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="70dp"/>
+
+<!--        <Button-->
+<!--            android:id="@+id/fitToScreen"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|right"-->
+<!--            android:layout_margin="20dp"-->
+<!--            android:fontFamily="@font/amiko_bold"-->
+<!--            android:text="Odzumiraj" />-->
 
     </FrameLayout>
 

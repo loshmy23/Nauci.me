@@ -65,8 +65,10 @@ public class CustomAdapter extends BaseAdapter {
 
         if(model.getRead() == 0){
             holder.read.setBackgroundResource(R.drawable.notread);
+            holder.read.setDrawingCacheEnabled(true);
         }else {
             holder.read.setBackgroundResource(R.drawable.read);
+            holder.read.setDrawingCacheEnabled(true);
         }
 
         return view;

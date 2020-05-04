@@ -20,7 +20,7 @@ import androidx.core.view.accessibility.AccessibilityViewCommand;
 
 public class QuizDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "naucime.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private SQLiteDatabase db;
     private Context context;
@@ -40,6 +40,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
                 ClassTable.TABLE_NAME + " ( " +
                 ClassTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ClassTable.COLUMN_NAME + " TEXT, " +
+                ClassTable.COLUMN_BACKGROUND + " TEXT, " +
                 ClassTable.COLUMN_COLOR1 + " TEXT, " +
                 ClassTable.COLUMN_COLOR2 + " TEXT, " +
                 ClassTable.COLUMN_COLOR3 + " TEXT, " +
@@ -246,6 +247,27 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         c.close();
         setAsUnead(unread);
         return lesson;
+    }
+
+    public ClassModel getClassModel(int classId){
+        ClassModel classModel = new ClassModel();
+
+        db = getReadableDatabase();
+        Cursor c = db.rawQuery("select * from " + ClassTable.TABLE_NAME +
+                " where " + ClassTable._ID + " = " + classId, null);
+
+        if(c.moveToFirst()){
+            do {
+                classModel.setName(c.getString(c.getColumnIndex(ClassTable.COLUMN_NAME)));
+                classModel.setBackground(c.getString(c.getColumnIndex(ClassTable.COLUMN_BACKGROUND)));
+                classModel.setColor1(c.getString(c.getColumnIndex(ClassTable.COLUMN_COLOR1)));
+                classModel.setColor2(c.getString(c.getColumnIndex(ClassTable.COLUMN_COLOR2)));
+                classModel.setColor3(c.getString(c.getColumnIndex(ClassTable.COLUMN_COLOR3)));
+                classModel.setColor4(c.getString(c.getColumnIndex(ClassTable.COLUMN_COLOR4)));
+            }while (c.moveToNext());
+        }
+        c.close();
+        return classModel;
     }
 
     public List<PhotoSettings> getSettings(String lessonCode){

@@ -1,14 +1,22 @@
-insert into Class(name, color1, color2, color3, color4) values("Fizika", "#003B5D", "#99003B5D", "#0078bd", "#24afff");
-insert into Class(name, color1, color2, color3, color4) values("Hemija", "#00574B", "#9900574B", "#00a892", "#00e6c7");
-insert into Class(name, color1, color2, color3, color4) values("Istorija", "#4f4f4f", "#994f4f4f", "#828282", "#a8a8a8");
-insert into Class(name, color1, color2, color3, color4) values("Geografija", "#a34900", "#99a34900", "#e66700", "#ff7e14");
-insert into Lesson(name, lesson_code, filename, read, class_id) values("Fizika kao prirodna nauka", "fiz01", "1. Fizika kao prirodna nauka.pdf", 0, 1);
-insert into Lesson(name, lesson_code, filename, read, class_id) values("Prvi Njutnov zakon", "fiz02", "2. I Njutnov zakon.pdf", 0, 1);
+insert into Class(name, background, color1, color2, color3, color4) values("Fizika", "physics/gui/fizika.jpg", "#003B5D", "#99003B5D", "#0078bd", "#24afff");
+insert into Class(name, background, color1, color2, color3, color4) values("Hemija", "chemistry/gui/hemija.jpg", "#00574B", "#9900574B", "#00a892", "#00e6c7");
+insert into Class(name, background, color1, color2, color3, color4) values("Istorija", "history/gui/istorija.jpg", "#4f4f4f", "#994f4f4f", "#828282", "#a8a8a8");
+insert into Class(name, background, color1, color2, color3, color4) values("Geografija", "geography/gui/geografija.jpg", "#a34900", "#99a34900", "#e66700", "#ff7e14");
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Fizika kao prirodna nauka", "fiz01", "physics/lessons/1. Fizika kao prirodna nauka.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Fizičke jedinice i njihove veličine", "fiz02", "physics/lessons/2. Fizičke jedinice i njihove veličine.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Ravnomjerno i neravnomjerno kretanje", "fiz03", "physics/lessons/3. Ravnomjerno i neravnomjerno kretanje.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Interakcije tijela", "fiz04", "physics/lessons/4. Interakcije tijela.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Struktura supstancije", "fiz05", "physics/lessons/5. Struktura supstancije.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Masa i gustina", "fiz06", "physics/lessons/6. Masa i gustina.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Kretanje", "fiz07", "physics/lessons/7. Kretanje.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Sile i kretanje", "fiz08", "physics/lessons/8. Sile i kretanje.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Rad, snaga i energija", "fiz09", "physics/lessons/9. Rad, snaga i energija.pdf", 0, 1);
+insert into Lesson(name, lesson_code, filename, read, class_id) values("Pritisak", "fiz10", "physics/lessons/10. Pritisak.pdf", 0, 1);
 insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("Fizika kao prirodna nauka? ", "T", "I", "II", "III", 1, "fiz01");
 insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("Inercija? ", "T", "ubrzanje", "masa", "inercija", 3, "fiz01");
 insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("questionPictures/druginjutnovzakon.png", "P", "I", "II", "III", 1, "fiz02");
 insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("Prvi Njutnov zakon? ", "T", "Prvi", "Drugi", "Treci", 1, "fiz02");
-insert into Settings(photo, photo_page, lesson_code) values ("lessonPictures/f=ma.png", 1, "fiz01")
-insert into Settings(photo, photo_page, lesson_code) values ("lessonPictures/f=ma.png", 3, "fiz01")
-insert into Settings(photo, photo_page, lesson_code) values ("lessonPictures/f=ma.png", 1, "fiz02")
-insert into Settings(photo, photo_page, lesson_code) values ("lessonPictures/f=ma.png", 3, "fiz02")
+insert into Settings(photo, photo_page, lesson_code) values ("physics/lessonPictures/f=ma.png", 1, "fiz01")
+insert into Settings(photo, photo_page, lesson_code) values ("physics/lessonPictures/f=ma.png", 3, "fiz01")
+insert into Settings(photo, photo_page, lesson_code) values ("physics/lessonPictures/f=ma.png", 1, "fiz02")
+insert into Settings(photo, photo_page, lesson_code) values ("physics/lessonPictures/f=ma.png", 3, "fiz02")
