@@ -18,5 +18,7 @@ insert into Question(question, question_type, option1, option2, option3, answer,
 insert into Question(question, question_type, option1, option2, option3, answer, related_lesson_code) values ("Prvi Njutnov zakon? ", "T", "Prvi", "Drugi", "Treci", 1, "fiz02");
 insert into Settings(photo, photo_page, lesson_code) values ("physics/lessonPictures/f=ma.png", 1, "fiz01")
 insert into Settings(photo, photo_page, lesson_code) values ("physics/lessonPictures/f=ma.png", 3, "fiz01")
+insert into Settings(photo, photo_page, lesson_code) values ("=nrF7g63P5FE", 4, "fiz01")
+insert into Settings(photo, photo_page, lesson_code) values ("=HtyVbd-htpI", 5, "fiz01")
 insert into Settings(photo, photo_page, lesson_code) values ("physics/lessonPictures/f=ma.png", 1, "fiz02")
 insert into Settings(photo, photo_page, lesson_code) values ("physics/lessonPictures/f=ma.png", 3, "fiz02")

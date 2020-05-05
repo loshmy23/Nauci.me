@@ -214,6 +214,11 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
+    public void readAll(int classId){
+        String sql = "update " + LessonTable.TABLE_NAME + " set " + LessonTable.COLUMN_READ + " = 1 where " + LessonTable.COLUMN_CLASS_ID + " = " + classId;
+        db.execSQL(sql);
+    }
+
     public String readFile(String filename){
         String data = "";
         BufferedReader br = null;

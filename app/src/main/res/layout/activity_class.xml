@@ -37,11 +37,11 @@
             android:layout_height="150dp"
             android:layout_margin="20dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/class_sign"
-                android:layout_gravity="center"/>
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@drawable/class_sign"-->
+<!--                android:layout_gravity="center"/>-->
 
             <TextView
                 android:id="@+id/nazivPredmeta"
@@ -50,7 +50,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/bangers1"
                 android:textColor="@color/white"
-                android:textSize="30sp"
+                android:textSize="60sp"
                 tools:text="Predmet: " />
 
         </FrameLayout>

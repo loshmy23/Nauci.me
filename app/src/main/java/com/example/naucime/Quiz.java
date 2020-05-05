@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -31,6 +32,8 @@ public class Quiz extends Activity {
     private TextView countdown;
     private TextView question;
     private TextView currentScore;
+    private TextView pitanje;
+    private TextView poena;
     private Button previousQuestion;
     private Button nextQuestion;
     private RadioGroup options;
@@ -55,6 +58,8 @@ public class Quiz extends Activity {
     private int score;
     private String relatedLesson;
     private boolean answered = true;
+    private Intent intent;
+    private int classColor;
 
 
 
@@ -62,7 +67,9 @@ public class Quiz extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        intent = getIntent();
+        classColor = Color.parseColor(intent.getStringExtra("color"));
+        final Intent intent = getIntent();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Spremni za kviz?")
                 .setCancelable(true)
@@ -82,6 +89,10 @@ public class Quiz extends Activity {
         AlertDialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
+        Button positive = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        positive.setTextColor(classColor);
+        Button negative = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        negative.setTextColor(classColor);
         alertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
@@ -114,13 +125,17 @@ public class Quiz extends Activity {
     public void manualOnCreate(){
         hideSystemUI();
         dbHelper = new QuizDbHelper(this);
-        Intent intent = getIntent();
         classID = intent.getIntExtra("classID", -1);
         className = findViewById(R.id.className);
-        className.setText(intent.getStringExtra("predmet"));
+        className.setText(intent.getStringExtra("class"));
+        className.setTextColor(classColor);
         question = findViewById(R.id.question);
         currentScore = findViewById(R.id.currentScore);
         questionCount = findViewById(R.id.questionCount);
+        pitanje = findViewById(R.id.pitanje);
+        pitanje.setBackgroundColor(classColor);
+        poena = findViewById(R.id.poena);
+        poena.setBackgroundColor(classColor);
         countdown = findViewById(R.id.countdown);
         //previousQuestion = findViewById(R.id.previousQuestion);
         //nextQuestion = findViewById(R.id.nextQuestion);
@@ -137,7 +152,9 @@ public class Quiz extends Activity {
                 if(options.getCheckedRadioButtonId()!=-1 && answered == true){
                     final RadioButton selected = findViewById(options.getCheckedRadioButtonId());
                     if (selected != null){
-                        selected.setBackground(getResources().getDrawable(R.drawable.selected_option));
+                        //selected.setBackground(getResources().getDrawable(R.drawable.selected_option));
+                        selected.setBackgroundColor(classColor);
+                        selected.setTextColor(Color.WHITE);
                         checkAnswer(1);
                     }
                 }
@@ -170,10 +187,12 @@ public class Quiz extends Activity {
             public void run() {
                 if(a == 1) {
                     selected.setBackground(getResources().getDrawable(R.drawable.underline));
+                    selected.setTextColor(Color.BLACK);
                     showNextQuestion();
                 }
             }
         }, 500);
+
     }
 
 
@@ -297,11 +316,16 @@ public class Quiz extends Activity {
                 .setNegativeButton("Ne zelim!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        dbHelper.readAll(classID);
                         finish();
                     }
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        Button positive = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        positive.setTextColor(classColor);
+        Button negative = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        negative.setTextColor(classColor);
     }
 
     @Override

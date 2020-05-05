@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:class="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:class="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="250dp">
-
 
 
         <ImageView
@@ -18,15 +17,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/board" />
-<!--        <WebView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:id="@+id/videoView"/>-->
-        <com.google.android.youtube.player.YouTubePlayerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/youtube"
-            android:visibility="gone"/>
+        <!--        <WebView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:id="@+id/videoView"/>-->
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,37 +53,58 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="50dp"
             android:fontFamily="casual"
+            android:singleLine="true"
             android:text="Lekcija:"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            android:singleLine="true"/>
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/formula"
             android:layout_width="100dp"
             android:layout_height="45dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youtube"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/toggleLessonButton"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:text="Prikaži lekciju"
-        android:textColor="@color/white"
-        android:visibility="gone" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/toggleMiniQuiz"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/amiko_bold"
-        android:text="Prikaži mini kviz"
-        android:textColor="@color/white" />
+        <Button
+            android:id="@+id/toggleLessonButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Prikaži lekciju"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/toggleMiniQuiz"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="@font/amiko_bold"
+            android:text="Prikaži mini kviz"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/showVideo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|right"
+            android:background="@drawable/youtube" />
+
+    </FrameLayout>
+
 
 
     <FrameLayout
@@ -114,52 +130,56 @@
             android:layout_gravity="top|center_horizontal" />
 
         <LinearLayout
+            android:id="@+id/zoomLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/zoomButtons"
             android:layout_gravity="bottom|right"
             android:layout_margin="20dp"
             android:orientation="horizontal">
 
+            <LinearLayout
+                android:id="@+id/zoomButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+
+                <Button
+                    android:id="@+id/zoomIn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/zoom100"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:text="100%" />
+
+                <Button
+                    android:id="@+id/zoomOut"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="-" />
+            </LinearLayout>
+
             <Button
-                android:id="@+id/zoomIn"
+                android:id="@+id/showZoomOptions"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:text="+" />
-
-            <Button
-                android:id="@+id/zoom100"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:text="100%" />
-
-            <Button
-                android:id="@+id/zoomOut"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:text="-" />
-
+                android:background="@drawable/zoom" />
 
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/showVideo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom|right"
-            android:background="@drawable/youtube"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="70dp"/>
-
-<!--        <Button-->
-<!--            android:id="@+id/fitToScreen"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="bottom|right"-->
-<!--            android:layout_margin="20dp"-->
-<!--            android:fontFamily="@font/amiko_bold"-->
-<!--            android:text="Odzumiraj" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/fitToScreen"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="bottom|right"-->
+        <!--            android:layout_margin="20dp"-->
+        <!--            android:fontFamily="@font/amiko_bold"-->
+        <!--            android:text="Odzumiraj" />-->
 
     </FrameLayout>
 

@@ -31,6 +31,7 @@ public class Class extends AppCompatActivity {
     private ImageView background;
     private ImageView transparentBackground;
     QuizDbHelper dbHelper = null;
+    ClassModel classModel = null;
     int class_ID;
     int preSelected = -1;
 
@@ -51,7 +52,7 @@ public class Class extends AppCompatActivity {
         class_ID = intent.getIntExtra("classId", 0);
 
         dbHelper = new QuizDbHelper(this);
-        ClassModel classModel = dbHelper.getClassModel(class_ID);
+        classModel = dbHelper.getClassModel(class_ID);
 
         predmetProgres.getProgressDrawable().setColorFilter(Color.parseColor(classModel.getColor3()), PorterDuff.Mode.SRC_IN);
 
@@ -90,7 +91,8 @@ public class Class extends AppCompatActivity {
             public void onClick(View v) {
                 Intent quiz = new Intent(Class.this, Quiz.class);
                 quiz.putExtra("classID", class_ID);
-                quiz.putExtra("predmet", intent.getStringExtra("predmet"));
+                quiz.putExtra("class", classModel.getName());
+                quiz.putExtra("color", classModel.getColor1());
                 //startActivity(quiz);
                 startActivityForResult(quiz, 1);
             }
@@ -130,6 +132,7 @@ public class Class extends AppCompatActivity {
                 view.findViewById(R.id.read).setBackgroundResource(R.drawable.read);
                 Intent lekcija = new Intent(Class.this, Lesson.class);
                 lekcija.putExtra("Id", model.getId());
+                lekcija.putExtra("color", classModel.getColor1());
                 startActivity(lekcija);
                 dbHelper.setAsRead(model.getId());
                 updateSeeker();

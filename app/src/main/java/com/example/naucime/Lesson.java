@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.AndroidException;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -60,6 +61,8 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
     private Button previousQuestion;
     private Button nextQuestion;
     private Button showVideo;
+    private Button showZoomOptions;
+    private LinearLayout zoomButtons;
     private Button zoomIn;
     private Button zoomOut;
     private Button zoom100;
@@ -95,6 +98,8 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         pdfView = findViewById(R.id.pdfView);
         //fitToScreen = findViewById(R.id.fitToScreen);
         showVideo = findViewById(R.id.showVideo);
+        showZoomOptions = findViewById(R.id.showZoomOptions);
+        zoomButtons = findViewById(R.id.zoomButtons);
         zoom100 = findViewById(R.id.zoom100);
         zoomIn = findViewById(R.id.zoomIn);
         zoomOut = findViewById(R.id.zoomOut);
@@ -102,7 +107,6 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         //videoView = findViewById(R.id.videoView);
         youTubeView = findViewById(R.id.youtube);
         youTubeView.initialize(YouTubeConfig.getApiKey(), this);
-
 
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
@@ -154,6 +158,18 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 toggleVideo();
             }
         });
+        showZoomOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(zoomButtons.getVisibility()==View.GONE){
+                    zoomButtons.setVisibility(View.VISIBLE);
+                    showZoomOptions.setBackground(getResources().getDrawable(R.drawable.cancel));
+                }else{
+                    zoomButtons.setVisibility(View.GONE);
+                    showZoomOptions.setBackground(getResources().getDrawable(R.drawable.zoom));
+                }
+            }
+        });
 
 //        videoView.setWebViewClient(new WebViewClient());
 //        videoView.getSettings().setJavaScriptEnabled(true);
@@ -173,6 +189,7 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
             }
         });
+        toggleLesson.setBackgroundColor(Color.parseColor(intent.getStringExtra("color")));
 
         toggleMiniQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,6 +202,7 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 nextMiniQuizQuestion();
             }
         });
+        toggleMiniQuiz.setBackgroundColor(Color.parseColor(intent.getStringExtra("color")));
         lessonOption1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +242,16 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
     }
 
     private void toggleVideo() {
-
+        if(youTubeView.getVisibility()==View.VISIBLE){
+            showVideo.setBackground(getResources().getDrawable(R.drawable.youtube));
+            youTubeView.setVisibility(View.GONE);
+        }else{
+            youTubeView.setVisibility(View.VISIBLE);
+            showVideo.setBackground(getResources().getDrawable(R.drawable.cancel));
+            if(url!=""){
+                youTubePlayer.cueVideo(url.substring(1));
+            }
+        }
     }
 
     @Override
@@ -258,9 +285,14 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
     private void editBoard(int page) {
         for (int i=0; i<settings.size(); i++){
-            int a = settings.get(i).getPhotoPage();
-            if(a == page+1){
-                if(youTubePlayer.isPlaying()){
+            int photoPage = settings.get(i).getPhotoPage();
+            String photo = settings.get(i).getPhoto();
+            if(photoPage == page+1){
+                if(photo.startsWith("=")){
+                    if(youTubeView.getVisibility()!=View.GONE && url != photo){
+                        youTubePlayer.cueVideo(photo.substring(1));
+                    }
+                    url = photo;
                     break;
                 }
                 formula.setVisibility(View.VISIBLE);

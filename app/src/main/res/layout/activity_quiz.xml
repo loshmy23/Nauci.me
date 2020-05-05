@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/quiz_background">
+    android:background="@drawable/quiz_background"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/className"
@@ -14,31 +14,32 @@
         android:fontFamily="@font/amiko_bold"
         android:text="TextView"
         android:textAlignment="center"
-        android:textSize="24sp"
-        android:textColor="@color/white"/>
+        android:textSize="24sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.2"
-        android:orientation="horizontal"
+        android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp">
+        android:layout_weight="1.2"
+        android:orientation="horizontal">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/pitanje"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/amiko_bold"
                 android:text="Pitanje:"
                 android:textAlignment="center"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/questionCount"
@@ -49,6 +50,7 @@
                 android:textAlignment="center"
                 android:textSize="20dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -56,13 +58,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/poena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/amiko_bold"
                 android:text="Poena:"
                 android:textAlignment="center"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/currentScore"
@@ -76,6 +79,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -86,9 +90,9 @@
             style="?android:progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:progress="90"
-            android:progressDrawable="@drawable/circle"
-            android:layout_gravity="center"/>
+            android:progressDrawable="@drawable/circle" />
 
         <TextView
             android:id="@+id/countdown"
@@ -113,27 +117,27 @@
         android:text="Pitanje"
         android:textAlignment="center"
         android:textSize="20dp"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <ImageView
+        android:id="@+id/pictureQuestion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/pictureQuestion"
-        android:layout_weight="1"
+        android:layout_gravity="right"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="50dp"
-        android:layout_gravity="right"
-        android:visibility="gone"/>
+        android:layout_weight="1"
+        android:visibility="gone" />
 
 
     <RadioGroup
+        android:id="@+id/options"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.9"
         android:layout_margin="30dp"
-        android:paddingLeft="50dp"
-        android:id="@+id/options">
+        android:layout_weight="0.9"
+        android:paddingLeft="50dp">
 
         <RadioButton
             android:id="@+id/option1"
