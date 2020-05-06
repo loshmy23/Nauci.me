@@ -133,6 +133,8 @@ public class Class extends AppCompatActivity {
                 Intent lekcija = new Intent(Class.this, Lesson.class);
                 lekcija.putExtra("Id", model.getId());
                 lekcija.putExtra("color", classModel.getColor1());
+                lekcija.putExtra("secondColor", classModel.getColor3());
+                lekcija.putExtra("thirdColor", classModel.getColor4());
                 startActivity(lekcija);
                 dbHelper.setAsRead(model.getId());
                 updateSeeker();

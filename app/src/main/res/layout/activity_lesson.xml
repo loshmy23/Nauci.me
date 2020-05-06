@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:class="http://schemas.android.com/tools"
+    android:id="@+id/activityLessonLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/boardLayout"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="250dp"
+        android:visibility="visible">
 
 
         <ImageView
@@ -46,25 +49,34 @@
             android:textColor="@color/white"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lessonNameTextView"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="50dp"
-            android:fontFamily="casual"
-            android:singleLine="true"
-            android:text="Lekcija:"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:layout_margin="50dp">
 
-        <ImageView
-            android:id="@+id/formula"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/lessonNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="casual"
+                android:singleLine="false"
+                android:text="Lekcija:"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/formula"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_below="@+id/lessonNameTextView"/>
+
+        </RelativeLayout>
+
+
 
         <com.google.android.youtube.player.YouTubePlayerView
             android:id="@+id/youtube"
@@ -76,13 +88,14 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <Button
             android:id="@+id/toggleLessonButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/white"
             android:fontFamily="@font/amiko_bold"
             android:text="Prikaži lekciju"
             android:textColor="@color/white"
@@ -92,6 +105,7 @@
             android:id="@+id/toggleMiniQuiz"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/white"
             android:fontFamily="@font/amiko_bold"
             android:text="Prikaži mini kviz"
             android:textColor="@color/white" />
@@ -104,7 +118,6 @@
             android:background="@drawable/youtube" />
 
     </FrameLayout>
-
 
 
     <FrameLayout
@@ -129,48 +142,61 @@
             android:layout_height="match_parent"
             android:layout_gravity="top|center_horizontal" />
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/zoomLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
             android:layout_margin="20dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/zoomButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="50dp">
 
 
                 <Button
                     android:id="@+id/zoomIn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:text="+" />
+                    android:text="+"
+                    android:background="@color/transparent"/>
 
                 <Button
                     android:id="@+id/zoom100"
-                    android:layout_width="60dp"
+                    android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:text="100%" />
+                    android:text="fit"
+                    android:background="@color/transparent"/>
 
                 <Button
                     android:id="@+id/zoomOut"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:text="-" />
+                    android:text="-"
+                    android:background="@color/transparent"/>
+
+                <Button
+                    android:id="@+id/fullscreenPdf"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/fullscreen"/>
             </LinearLayout>
 
             <Button
                 android:id="@+id/showZoomOptions"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_gravity="bottom"
                 android:background="@drawable/zoom" />
 
 
-        </LinearLayout>
+        </FrameLayout>
 
         <!--        <Button-->
         <!--            android:id="@+id/fitToScreen"-->
@@ -184,72 +210,90 @@
     </FrameLayout>
 
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/miniQuizLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
         android:visibility="gone">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/previousQuestion"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="left"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_button" />
 
-            <Button
-                android:id="@+id/previousQuestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:background="@drawable/rounded_button" />
-
-            <Button
-                android:id="@+id/nextQuestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/rounded_button" />
-        </FrameLayout>
+        <Button
+            android:id="@+id/nextQuestion"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="right"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_button" />
 
         <TextView
             android:id="@+id/miniQuizQuestionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="90dp"
+            android:background="@color/fizika"
             android:fontFamily="@font/roboto_condensed_regular"
             android:text="Pitanje"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/miniQuizPicture"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="90dp"
             android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/lessonOption1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/lessonOption2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/lessonOption3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:textColor="@color/black" />
         </LinearLayout>
-    </LinearLayout>
+
+        <!--        <FrameLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content">-->
+
+        <!--            -->
+        <!--        </FrameLayout>-->
+    </FrameLayout>
 
 </LinearLayout>

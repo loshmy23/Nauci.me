@@ -45,7 +45,9 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
     private int id = 0;
     private int currentIndex = 0;
+    private int color;
     private String url = "";
+    private boolean videos = false;
     private Question currentQuestion;
     private List<Question> questions;
     private List<PhotoSettings> settings;
@@ -63,11 +65,14 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
     private Button showVideo;
     private Button showZoomOptions;
     private LinearLayout zoomButtons;
+    private LinearLayout activityLessonLayout;
+    private FrameLayout boardLayout;
     private Button zoomIn;
     private Button zoomOut;
     private Button zoom100;
+    private Button fullscreen;
     private FrameLayout lessonLayout;
-    private LinearLayout miniQuizLayout;
+    private FrameLayout miniQuizLayout;
     private PDFView pdfView;
     private ImageView formula;
     //private WebView videoView;
@@ -95,6 +100,8 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         nextQuestion = findViewById(R.id.nextQuestion);
         lessonLayout = findViewById(R.id.lessonLayout);
         miniQuizLayout = findViewById(R.id.miniQuizLayout);
+        activityLessonLayout = findViewById(R.id.activityLessonLayout);
+        boardLayout = findViewById(R.id.boardLayout);
         pdfView = findViewById(R.id.pdfView);
         //fitToScreen = findViewById(R.id.fitToScreen);
         showVideo = findViewById(R.id.showVideo);
@@ -103,6 +110,7 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         zoom100 = findViewById(R.id.zoom100);
         zoomIn = findViewById(R.id.zoomIn);
         zoomOut = findViewById(R.id.zoomOut);
+        fullscreen = findViewById(R.id.fullscreenPdf);
         formula = findViewById(R.id.formula);
         //videoView = findViewById(R.id.videoView);
         youTubeView = findViewById(R.id.youtube);
@@ -114,8 +122,10 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
         Intent intent = getIntent();
         id = intent.getIntExtra("Id", 0);
+        color = Color.parseColor(intent.getStringExtra("color"));
         final LessonModel lesson = dbHelper.getLesson(id);
         settings = dbHelper.getSettings(lesson.getLessonCode());
+        checkForVideos();
         pdfView.fromAsset(lesson.getFilename())
                 .onPageChange(new OnPageChangeListener() {
                     @Override
@@ -152,10 +162,42 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
             }
         });
 
+        fullscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(boardLayout.getVisibility()==View.VISIBLE){
+                    boardLayout.setVisibility(View.GONE);
+                    fullscreen.setBackground(getResources().getDrawable(R.drawable.exitfullscreen));
+                    if(youTubeView.getVisibility()==View.VISIBLE){
+                        youTubePlayer.pause();
+                        toggleVideo();
+                    }
+                }else {
+                    boardLayout.setVisibility(View.VISIBLE);
+                    fullscreen.setBackground(getResources().getDrawable(R.drawable.fullscreen));
+                }
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdfView.fitToWidth(pdfView.getCurrentPage());
+                    }
+                }, 100);
+            }
+        });
+
         showVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boardLayout.setVisibility(View.VISIBLE);
                 toggleVideo();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pdfView.fitToWidth(pdfView.getCurrentPage());
+                    }
+                }, 100);
             }
         });
         showZoomOptions.setOnClickListener(new View.OnClickListener() {
@@ -186,10 +228,12 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 miniQuizLayout.setVisibility(View.GONE);
                 toggleMiniQuiz.setVisibility(View.VISIBLE);
                 toggleLesson.setVisibility(View.GONE);
-
+                if(videos){
+                    showVideo.setVisibility(View.VISIBLE);
+                }
             }
         });
-        toggleLesson.setBackgroundColor(Color.parseColor(intent.getStringExtra("color")));
+        toggleLesson.setBackgroundColor(Color.parseColor(intent.getStringExtra("secondColor")));
 
         toggleMiniQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,12 +241,17 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 miniQuizLayout.setVisibility(View.VISIBLE);
                 lessonLayout.setVisibility(View.GONE);
                 toggleMiniQuiz.setVisibility(View.GONE);
+                showVideo.setVisibility(View.GONE);
+                youTubeView.setVisibility(View.GONE);
                 toggleLesson.setVisibility(View.VISIBLE);
                 questions = dbHelper.getMiniQuizQuestions(lesson.getLessonCode());
                 nextMiniQuizQuestion();
             }
         });
-        toggleMiniQuiz.setBackgroundColor(Color.parseColor(intent.getStringExtra("color")));
+        toggleMiniQuiz.setBackgroundColor(Color.parseColor(intent.getStringExtra("secondColor")));
+        miniQuizLayout.setBackgroundColor(color);
+        activityLessonLayout.setBackgroundColor(color);
+        zoomButtons.setBackgroundColor(Color.parseColor(intent.getStringExtra("thirdColor")));
         lessonOption1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,6 +270,9 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 onClickOption(v);
             }
         });
+//        lessonOption1.setBackgroundColor(color);
+//        lessonOption2.setBackgroundColor(color);
+//        lessonOption3.setBackgroundColor(color);
 
         lessonName.setText(lesson.getName());
         lessonName.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
@@ -241,6 +293,19 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         });
     }
 
+    private void checkForVideos() {
+        for(int i=0; i<settings.size(); i++){
+            if(settings.get(i).getPhoto().startsWith("=")){
+                videos = true;
+                url = settings.get(i).getPhoto();
+                break;
+            }
+        }
+        if(!videos){
+            showVideo.setVisibility(View.GONE);
+        }
+    }
+
     private void toggleVideo() {
         if(youTubeView.getVisibility()==View.VISIBLE){
             showVideo.setBackground(getResources().getDrawable(R.drawable.youtube));
@@ -250,14 +315,17 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
             showVideo.setBackground(getResources().getDrawable(R.drawable.cancel));
             if(url!=""){
                 youTubePlayer.cueVideo(url.substring(1));
+            }else {
+                youTubePlayer.pause();
             }
         }
     }
 
     @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer player, boolean b) {
         if (!b) {
-            this.youTubePlayer = youTubePlayer;
+            youTubePlayer = player;
+            youTubePlayer.setShowFullscreenButton(false);
         }
     }
 
@@ -342,19 +410,19 @@ public class Lesson extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
             public void run() {
                 nextMiniQuizQuestion();
             }
-        }, 500);
+        }, 1000);
 
     }
 
     private void clearAnswer() {
         lessonOption1.setBackgroundColor(Color.parseColor(
-                "#00000000"
+                "#ffffff"
         ));
         lessonOption2.setBackgroundColor(Color.parseColor(
-                "#00000000"
+                "#ffffff"
         ));
         lessonOption3.setBackgroundColor(Color.parseColor(
-                "#00000000"
+                "#ffffff"
         ));
     }
 
